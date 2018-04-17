@@ -49,6 +49,11 @@ class FlaskUrlsTest(unittest.TestCase):
         result = self.test_app.get('/home/home_users')
         self.assertEqual(result.status_code, 200)
 
+    def test_blueprint(self):
+        from test.testapp.blueprints.bp1.views import bp1
+        self.test_app.application.register_blueprint(bp1)
+        result = self.test_app.get('/bp1')
+        self.assertEqual(result.status_code, 200)
 
 
 
