@@ -1,1 +1,1 @@
-from flask_urls import *
+from .flask_urls import *

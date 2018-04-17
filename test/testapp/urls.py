@@ -1,6 +1,7 @@
 from test.testapp import views
 
 urls = [
-  ('/', ['GET'], views.index),
-  ('/users', ['GET'], views.get_users)
+    ("/", views.index, ["GET"]),
+    ("/users", views.get_users, ["GET"]),
+    ("/home", "home.urls")
 ]

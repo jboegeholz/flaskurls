@@ -1,0 +1,1 @@
+my_member = "Hello B"

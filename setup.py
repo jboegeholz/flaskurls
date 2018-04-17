@@ -9,5 +9,6 @@ setup(
     license='MIT',
     author='Joern Boegeholz',
     author_email='boegeholz.joern@gmail.com',
-    description='Django-style url handling for Flask'
+    description='Django-style url handling for Flask',
+
 )

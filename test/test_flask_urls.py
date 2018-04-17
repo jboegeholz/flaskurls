@@ -18,6 +18,13 @@ class FlaskUrlsTest(unittest.TestCase):
         result = self.test_app.get('/users')
         self.assertEqual(result.status_code, 200)
 
+    def test_blueprint_home(self):
+        result = self.test_app.get('/home_index')
+        self.assertEqual(result.status_code, 200)
+
+    def test_blueprint_users(self):
+        result = self.test_app.get('/home_users')
+        self.assertEqual(result.status_code, 200)
 
 
 
