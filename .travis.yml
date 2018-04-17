@@ -5,5 +5,9 @@ python:
   - "3.4"
   - "3.6"
 
+# command to install dependencies
+install:
+  - pip install -r requirements-test.txt
+
 script:
  - if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then python -m unittest discover; fi
