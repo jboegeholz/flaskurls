@@ -1,9 +1,9 @@
-from __future__ import print_function
 import importlib.util
 import os
 
 
 def register_urls(app, urls, prefix=None):
+    app.logger.info("register_urls")
     for url in urls:
         number_of_args = len(url)
         if number_of_args == 3:
@@ -13,11 +13,11 @@ def register_urls(app, urls, prefix=None):
 
 
 def register_component(app, url):
-    print("Registering component: " + str(url))
+    app.logger.info("Registering component: " + str(url))
     urls_file = url[1]
     prefix = url[0]
     if isinstance(urls_file, str):
-        print("Importing: " + urls_file)
+        app.logger.info("Importing: " + urls_file)
         urls_file = urls_file.split(".")
         package = urls_file[0]
         module_name = urls_file[1]
@@ -29,7 +29,7 @@ def register_component(app, url):
 
 
 def register_endpoint(app, prefix, url):
-    print("Registering endpoint: " + str(url))
+    app.logger.info("Registering endpoint: " + str(url))
     if prefix:
         endpoint = prefix + url[0]
     else:
