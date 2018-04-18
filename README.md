@@ -20,6 +20,11 @@ urls = [
 You can either directly map urls to views/endpoints or include another urls file from a component. 
 In the ladder case the "url" is the prefix for all urls in the sub-component.
 
+The syntax is `(<route>, <function>, <http_method>)` or `(<prefix>, <module>)`
+
+After declaring your url mapping You can register the urls to the flask app via `register_urls`
+       
+
 A sample setup 
 * wsgi.py
 ```
