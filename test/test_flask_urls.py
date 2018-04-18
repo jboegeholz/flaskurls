@@ -12,7 +12,7 @@ class FlaskUrlsTest(unittest.TestCase):
         pass
 
     def test_root(self):
-        from flask_urls import register_urls
+        from flask_url_mapping import register_urls
         from test.testapp import views
         urls = [
             ("/", views.index, ["GET"]),
@@ -22,7 +22,7 @@ class FlaskUrlsTest(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
 
     def test_users(self):
-        from flask_urls import register_urls
+        from flask_url_mapping import register_urls
         from test.testapp import views
         urls = [
             ("/users", views.get_users, ["GET"]),
@@ -32,7 +32,7 @@ class FlaskUrlsTest(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
 
     def test_home_index(self):
-        from flask_urls import register_urls
+        from flask_url_mapping import register_urls
         urls = [
             ("/home", "home.urls")
         ]
@@ -41,7 +41,7 @@ class FlaskUrlsTest(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
 
     def test_home_users(self):
-        from flask_urls import register_urls
+        from flask_url_mapping import register_urls
         urls = [
             ("/home", "home.urls")
         ]
