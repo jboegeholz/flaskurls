@@ -8,6 +8,12 @@ The syntax is either (<route>, <function>, <http_method>) or (<prefix>, <module>
 
 
 def register_urls(app, urls, prefix=None):
+    """Main entry point of the module. Takes an array of url mappings and registers them as url_rule at the Flask app
+    :param app: a Flask app object
+    :param urls: an array of tuples of (<route>, <function>, <http_method>) or (<prefix>, <module>)
+    :param prefix: a prefix to the route
+    :return:
+    """
     app.logger.info("register_urls")
     for url in urls:
         number_of_args = len(url)
