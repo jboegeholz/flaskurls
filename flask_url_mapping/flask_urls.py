@@ -1,15 +1,31 @@
 import importlib.util
 import os
 
+ERROR_MSG = """
+Wrong mapping format!
+The syntax is either (<route>, <function>, <http_method>) or (<prefix>, <module>)
+"""
+
 
 def register_urls(app, urls, prefix=None):
     app.logger.info("register_urls")
     for url in urls:
         number_of_args = len(url)
-        if number_of_args == 3:
-            _register_endpoint(app, prefix, url)
-        elif number_of_args == 2:
-            _register_component(app, url)
+        if number_of_args not in (2, 3):
+            raise Exception(ERROR_MSG)
+
+        if isinstance(url[0], str):
+            if hasattr(url[1], '__call__'):
+                if number_of_args == 3 and isinstance(url[2], list):
+                    _register_endpoint(app, prefix, url[0], url[1], url[2])
+                elif number_of_args == 2:
+                    _register_endpoint(app, prefix, url[0], url[1], ["GET"])
+                else:
+                    raise Exception(ERROR_MSG)
+            elif isinstance(url[1], str):
+                _register_component(app, url)
+            else:
+                raise Exception(ERROR_MSG)
 
 
 def _register_component(app, url):
@@ -33,10 +49,8 @@ def _load_module(module_path):
     return foo
 
 
-def _register_endpoint(app, prefix, url):
-    app.logger.info("Registering endpoint: " + str(url))
+def _register_endpoint(app, prefix, route, view_func, methods):
+    app.logger.info("Registering endpoint: " + str(route))
     if prefix:
-        endpoint = prefix + url[0]
-    else:
-        endpoint = url[0]
-    app.add_url_rule(endpoint, methods=url[2], view_func=url[1])
+        route = prefix + route
+    app.add_url_rule(route, methods=methods, view_func=view_func)

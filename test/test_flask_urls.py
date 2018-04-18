@@ -55,6 +55,24 @@ class FlaskUrlsTest(unittest.TestCase):
         result = self.test_app.get('/bp1')
         self.assertEqual(result.status_code, 200)
 
+    def test_missing_http_method(self):
+        from flask_url_mapping import register_urls
+        from test.testapp import views
+        urls = [
+            ("/", views.index),
+        ]
+        register_urls(self.test_app.application, urls)
+        result = self.test_app.get('/')
+        self.assertEqual(result.status_code, 200)
 
+    def test_wrong_mapping_format(self):
+        from flask_url_mapping import register_urls
+        urls = [
+            "/"
+        ]
+        with self.assertRaises(Exception) as context:
+            register_urls(self.test_app.application, urls)
+
+        self.assertTrue('Wrong mapping format!' in str(context.exception))
 
 
