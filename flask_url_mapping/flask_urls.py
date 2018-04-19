@@ -8,13 +8,19 @@ The syntax is either (<route>, <function>, <http_method>) or (<prefix>, <module>
 
 
 def register_urls(app, urls, prefix=None):
+    app.logger.info("Registering Urls")
+    _register_urls(app, urls, prefix)
+    app.logger.info(app.url_map)
+
+
+def _register_urls(app, urls, prefix):
     """Main entry point of the module. Takes an array of url mappings and registers them as url_rule at the Flask app
     :param app: a Flask app object
     :param urls: an array of tuples of (<route>, <function>, <http_method>) or (<prefix>, <module>)
     :param prefix: a prefix to the route
     :return:
     """
-    app.logger.info("register_urls")
+    app.logger.info("_register_urls")
     for url in urls:
         number_of_args = len(url)
         if number_of_args not in (2, 3):
@@ -43,9 +49,13 @@ def _register_component(app, url):
         urls_file = urls_file.split(".")
         package = urls_file[0]
         module_name = urls_file[1]
-        module_path = os.path.join(app.root_path, package, module_name + ".py")
-        foo = _load_module(module_path)
-        register_urls(app, foo.urls, prefix)
+        module_path = os.path.join(app.root_path, package)
+        urls_path = os.path.join(module_path, module_name + ".py")
+        foo = _load_module(urls_path)
+        _register_urls(app, foo.urls, prefix)
+        template_path = os.path.join(module_path, "templates")
+        if os.path.isdir(template_path):
+            app.jinja_loader.searchpath.append(template_path)
 
 
 def _load_module(module_path):
