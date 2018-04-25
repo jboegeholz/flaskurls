@@ -51,10 +51,10 @@ def hello_world():
     return 'Hello World!'    
 ```
 
-##Components
+## Components
 A component is a subfolder which contains at least an urls.py and an views.py
 
 When this folder also contains a templates directory, it will be automatically added to the jinja2 search path for html templates
 
-#Travis-CI
+## Travis-CI
 [![Build Status](https://travis-ci.org/jboegeholz/flaskurls.svg?branch=master)](https://travis-ci.org/jboegeholz/flaskurls)
