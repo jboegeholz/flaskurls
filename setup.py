@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='flask_url_mapping',
-    version='0.2',
+    version='0.3',
     packages=['flask_url_mapping'],
     url='https://github.com/jboegeholz/flaskurls',
     download_url='https://github.com/jboegeholz/flaskurls/archive/0.2.tar.gz',
