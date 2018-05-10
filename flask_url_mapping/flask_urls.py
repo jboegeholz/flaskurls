@@ -1,4 +1,5 @@
-import importlib.util
+import importlib.util  # needs backport to Python 2.7
+# https://stackoverflow.com/questions/45350363/backport-of-importlib-for-python-2-7-from-3-6
 import os
 
 ERROR_MSG = """
@@ -6,8 +7,10 @@ Wrong mapping format!
 The syntax is either (<route>, <function>, <http_method>) or (<prefix>, <module>)
 """
 
+_permissions = {}
 
-def register_urls(app, urls, prefix=None):
+
+def register_urls(app, urls, prefix=""):
     app.logger.info("Registering Urls")
     _register_urls(app, urls, prefix)
     app.logger.info(app.url_map)
@@ -30,6 +33,11 @@ def _register_urls(app, urls, prefix):
             _register_component(app, url)
         elif number_of_args == 3 and isinstance(url[0], str) and hasattr(url[1], '__call__') and isinstance(url[2], list):
             _register_endpoint(app, prefix, url[0], url[1], url[2])
+        elif number_of_args == 4 and isinstance(url[0], str) and hasattr(url[1], '__call__') \
+                and isinstance(url[2], list) and isinstance(url[3], str):
+            _register_endpoint(app, prefix, url[0], url[1], url[2])
+            _permissions[os.path.join(prefix, url[0])] = url[3]
+            print(_permissions)
         else:
             raise Exception(ERROR_MSG)
 

@@ -78,4 +78,12 @@ class FlaskUrlsTest(unittest.TestCase):
         result = self.test_app.get('/home/home_html')
         self.assertEqual(result.status_code, 200)
 
-
+    def test_require_roles(self):
+        from flask_url_mapping import register_urls
+        from test.testapp import views
+        urls = [
+            ("/admin", views.index, ["GET"], "admin"),
+        ]
+        register_urls(self.test_app.application, urls)
+        result = self.test_app.get('/admin')
+        self.assertEqual(result.status_code, 200)
