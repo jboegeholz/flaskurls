@@ -2,6 +2,7 @@ import importlib.util  # needs backport to Python 2.7
 # https://stackoverflow.com/questions/45350363/backport-of-importlib-for-python-2-7-from-3-6
 import os
 from flask import current_app
+from flask_login import current_user
 ERROR_MSG = """
 Wrong mapping format!
 The syntax is either (<route>, <function>, <http_method>) or (<prefix>, <module>)
@@ -29,8 +30,8 @@ class FlaskUrls(object):
         with self.app.app_context():
             print(current_app.name)
             print("_check_permissions for: " + endpoint)
+            print(current_user)
 
-        pass
 
     def register_urls(self, urls, prefix=""):
 
