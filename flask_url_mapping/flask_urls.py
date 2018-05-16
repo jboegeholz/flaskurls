@@ -30,7 +30,9 @@ class FlaskUrls(object):
         with self.app.app_context():
             print(current_app.name)
             print("_check_permissions for: " + endpoint)
-            print(current_user)
+            if endpoint in self._permissions:
+                print(endpoint + " needs " + self._permissions[endpoint])
+                print(current_user)
 
 
     def register_urls(self, urls, prefix=""):
@@ -59,7 +61,7 @@ class FlaskUrls(object):
             elif number_of_args == 4 and isinstance(url[0], str) and hasattr(url[1], '__call__') \
                     and isinstance(url[2], list) and isinstance(url[3], str):
                 self._register_endpoint(prefix, url[0], url[1], url[2])
-                self._permissions[os.path.join(prefix, url[0])] = url[3]
+                self._permissions[os.path.join(prefix, url[1].__name__)] = url[3]
                 print(self._permissions)
             else:
                 raise Exception(ERROR_MSG)
