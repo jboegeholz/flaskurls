@@ -32,7 +32,7 @@ class FlaskUrls(object):
             print("_check_permissions for: " + endpoint)
             if endpoint in self._permissions:
                 print(endpoint + " needs " + self._permissions[endpoint])
-                print(current_user)
+                #print(current_user.get_roles())
 
 
     def register_urls(self, urls, prefix=""):
