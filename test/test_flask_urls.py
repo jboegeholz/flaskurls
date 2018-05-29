@@ -53,7 +53,7 @@ class FlaskUrlsTest(unittest.TestCase):
         result = self.test_app.get('/home/home_users')
         self.assertEqual(result.status_code, 200)
 
-    def test_missing_http_method(self):
+    def test_without_http_method(self):
         from flask_url_mapping import FlaskUrls
         from test.testapp import views
         urls = [

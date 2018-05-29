@@ -3,6 +3,7 @@ import importlib.util  # needs backport to Python 2.7
 import os
 from flask import current_app
 from flask_login import current_user
+from flask import abort
 ERROR_MSG = """
 Wrong mapping format!
 The syntax is either (<route>, <function>, <http_method>) or (<prefix>, <module>)
@@ -28,15 +29,17 @@ class FlaskUrls(object):
         :return:
         """
         with self.app.app_context():
-            print(current_app.name)
-            print("_check_permissions for: " + endpoint)
+            self.app.logger.info(current_app.name)
+            self.app.logger.info("_check_permissions for: " + endpoint)
             if endpoint in self._permissions:
-                print(endpoint + " needs " + self._permissions[endpoint])
-                #print(current_user.get_roles())
-
+                self.app.logger.info(endpoint + " needs " + self._permissions[endpoint])
+                if self._permissions[endpoint] in current_user.get_roles():
+                    self.app.logger.info("access granted")
+                else:
+                    self.app.logger.info("access denied")
+                    abort(404)
 
     def register_urls(self, urls, prefix=""):
-
         self.app.logger.info("Registering Urls")
         self._register_urls(urls, prefix)
         self.app.logger.info(self.app.url_map)
@@ -62,7 +65,7 @@ class FlaskUrls(object):
                     and isinstance(url[2], list) and isinstance(url[3], str):
                 self._register_endpoint(prefix, url[0], url[1], url[2])
                 self._permissions[os.path.join(prefix, url[1].__name__)] = url[3]
-                print(self._permissions)
+                self.app.logger.debug(self._permissions)
             else:
                 raise Exception(ERROR_MSG)
 

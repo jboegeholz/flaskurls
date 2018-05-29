@@ -12,20 +12,23 @@ pip install flask-url-mapping
 Centerpiece is an urls.py which contains the mapping.
 ```
 urls = [
-    ("/", views.index, ["GET"]),
-    ("/users", views.get_users, ["GET"]),
-    ("/home", "home.urls")
+    ("/", views.index),                             #1
+    ("/login", views.login, ["GET", "POST"]),       #2
+    ("/home", "home.urls")                          #3
+    ("/admin", views.admin, ["GET"], "admin_role"), #4
 ]
 ```
-You can either directly map urls to views/endpoints or include another urls file from a component. 
-In the ladder case the "url" is the prefix for all urls in the sub-component.
+There are four ways to map routes to endpoints
+1.  route to endpoint, http method default is GET
+2.  route to endpoint with array of http methods
+3.  route to component see Components
+4.  route to endpoint with array of http methods and required role
 
-The syntax is `(<route>, <function>, <http_method>)` or `(<prefix>, <module>)`
 
 After declaring your url mapping You can register the urls to the flask app via `register_urls`
        
 
-A sample setup 
+## A sample setup without permissions
 * wsgi.py
 ```
 from flask import Flask
@@ -33,9 +36,9 @@ from flask_url_mapping import register_urls
 from urls import urls
 app = Flask(__name__)
 
-
 if __name__ == '__main__':
-    register_urls(app, urls)
+    flask_urls = FlaskUrls(app)
+    flask_urls.register_urls(urls)
     app.run()
 ```
 * urls.py
@@ -50,10 +53,11 @@ urls = [
 def hello_world():
     return 'Hello World!'    
 ```
+## A sample setup with permissions
+When adding a role to a route endpoint mapping your project is 
 
 ## Components
 A component is a subfolder which contains at least an urls.py and an views.py
-
 When this folder also contains a templates directory, it will be automatically added to the jinja2 search path for html templates
 
 ## Travis-CI

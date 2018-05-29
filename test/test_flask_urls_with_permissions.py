@@ -23,15 +23,14 @@ class FlaskUrlsTest(unittest.TestCase):
             password=password
         ), follow_redirects=True)
 
-
-
     def test_require_roles(self):
         from flask_url_mapping import FlaskUrls
         from test.testapp_permissions import views
         self.app.config.update(dict(
             SECRET_KEY='development key',
             USERNAME='admin',
-            PASSWORD='default'
+            PASSWORD='default',
+            ROLES='admin'
         ))
         urls = [
             ("/index", views.index, ["GET"]),
@@ -44,3 +43,24 @@ class FlaskUrlsTest(unittest.TestCase):
             rv = self.login(c, 'admin', 'default')
             result = c.get('/admin')
         self.assertEqual(result.status_code, 200)
+
+    def test_require_roles_no_access(self):
+        from flask_url_mapping import FlaskUrls
+        from test.testapp_permissions import views
+        self.app.config.update(dict(
+            SECRET_KEY='development key',
+            USERNAME='user',
+            PASSWORD='default',
+            ROLES='user'
+        ))
+        urls = [
+            ("/index", views.index, ["GET"]),
+            ("/login", views.login, ["GET", "POST"]),
+            ("/admin", views.admin, ["GET"], "admin"),
+        ]
+        flask_urls = FlaskUrls(self.test_app.application)
+        flask_urls.register_urls(urls)
+        with self.app.test_client() as c:
+            rv = self.login(c, 'user', 'default')
+            result = c.get('/admin')
+        self.assertEqual(result.status_code, 404)
