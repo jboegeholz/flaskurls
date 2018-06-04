@@ -63,4 +63,25 @@ class FlaskUrlsTest(unittest.TestCase):
         with self.app.test_client() as c:
             rv = self.login(c, 'user', 'default')
             result = c.get('/admin')
-        self.assertEqual(result.status_code, 404)
+        self.assertEqual(result.status_code, 403)
+
+    def test_require_roles_no_access_403_page(self):
+        from flask_url_mapping import FlaskUrls
+        from test.testapp_permissions import views
+        self.app.config.update(dict(
+            SECRET_KEY='development key',
+            USERNAME='user',
+            PASSWORD='default',
+            ROLES='user'
+        ))
+        urls = [
+            ("/index", views.index, ["GET"]),
+            ("/login", views.login, ["GET", "POST"]),
+            ("/admin", views.admin, ["GET"], "admin"),
+        ]
+        flask_urls = FlaskUrls(self.test_app.application, abort_page="testapp_permissions/templates/403.html")
+        flask_urls.register_urls(urls)
+        with self.app.test_client() as c:
+            rv = self.login(c, 'user', 'default')
+            result = c.get('/admin')
+        self.assertEqual(result.status_code, 403)

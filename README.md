@@ -54,7 +54,7 @@ def hello_world():
     return 'Hello World!'    
 ```
 ## A sample setup with permissions
-When adding a role to a route endpoint mapping your project is 
+When adding a role to a route endpoint mapping your project has to use flask_login
 
 ## Components
 A component is a subfolder which contains at least an urls.py and an views.py

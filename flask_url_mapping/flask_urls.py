@@ -1,7 +1,7 @@
 import importlib.util  # needs backport to Python 2.7
 # https://stackoverflow.com/questions/45350363/backport-of-importlib-for-python-2-7-from-3-6
 import os
-from flask import current_app
+from flask import current_app, render_template
 from flask_login import current_user
 from flask import abort
 ERROR_MSG = """
@@ -12,11 +12,12 @@ The syntax is either (<route>, <function>, <http_method>) or (<prefix>, <module>
 
 class FlaskUrls(object):
 
-    def __init__(self, app=None):
+    def __init__(self, app, abort_page=None):
         self._permissions = {}
         if app is not None:
             self.app = app
             self.init_app(app)
+            self.abort_page = abort_page
 
     def init_app(self, app):
         app.url_value_preprocessors.setdefault(None, []).append(self._check_permissions)
@@ -37,7 +38,10 @@ class FlaskUrls(object):
                     self.app.logger.info("access granted")
                 else:
                     self.app.logger.info("access denied")
-                    abort(404)
+                    if self.abort_page:
+                        abort(403)  # TODO: render page
+                    else:
+                        abort(403)
 
     def register_urls(self, urls, prefix=""):
         self.app.logger.info("Registering Urls")
