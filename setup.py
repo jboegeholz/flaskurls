@@ -1,6 +1,7 @@
-from distutils.core import setup
+import setuptools
 
-setup(
+
+setuptools.setup(
     name='flask_url_mapping',
     version='0.4',
     packages=['flask_url_mapping'],
