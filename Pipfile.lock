@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "5ec204632a7ec0e2fa898525ad6e1099620b8e97e055fb4abb5e90fda74ad87d"
+            "sha256": "74a7af4b31fdf90576e61dca934cdc2fb5cceb63052f539b64b6b4e827626893"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -18,10 +18,11 @@
     "default": {
         "click": {
             "hashes": [
-                "sha256:29f99fc6125fbc931b758dc053b3114e55c77a6e4c6c3a2674a2dc986016381d",
-                "sha256:f15516df478d5a56180fbf80e68f206010e6d160fc39fa508b65e035fd75130b"
+                "sha256:2335065e6395b9e67ca716de5f7526736bfa6ceead690adf616d925bdc622b13",
+                "sha256:5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7"
             ],
-            "version": "==6.7"
+            "markers": "python_version != '3.3.*' and python_version != '3.0.*' and python_version != '3.2.*' and python_version != '3.1.*' and python_version >= '2.7'",
+            "version": "==7.0"
         },
         "flask": {
             "hashes": [
@@ -63,6 +64,14 @@
                 "sha256:d5da73735293558eb1651ee2fddc4d0dedcfa06538b8813a2e20011583c9e49b"
             ],
             "version": "==0.14.1"
+        },
+        "wheel": {
+            "hashes": [
+                "sha256:9fa1f772f1a2df2bd00ddb4fa57e1cc349301e1facb98fbe62329803a9ff1196",
+                "sha256:d215f4520a1ba1851a3c00ba2b4122665cd3d6b0834d2ba2816198b1e3024a0e"
+            ],
+            "index": "pypi",
+            "version": "==0.32.1"
         }
     },
     "develop": {}
