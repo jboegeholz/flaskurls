@@ -41,7 +41,7 @@ After declaring your url mapping You can register the urls to the flask app via 
 
 ```py
 from flask import Flask
-from flask_url_mapping import register_urls
+from flask_url_mapping import FlaskUrls
 from urls import urls
 app = Flask(__name__)
 
